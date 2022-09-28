@@ -280,3 +280,14 @@ ul li:hover {
   label {
     padding-right: 20px
   }
+
+.logged-in,
+.logged-out {
+  display: none;
+}
+
+.logged-in.active,
+.logged-out.active {
+  display: flex;
+  gap: 20px;
+}
