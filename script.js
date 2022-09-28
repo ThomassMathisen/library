@@ -42,6 +42,11 @@ addBookForm.addEventListener("submit", (e) => {
 
 let myLibrary = [];
 
+function addLocalStorage() {
+  myLibrary = JSON.parse(localStorage.getItem("library")) || [];
+  saveAndRenderBooks();
+}
+
 function Book(title, author, pages, read) {
    this.title = title;
    this.author = author;
@@ -134,3 +139,5 @@ function createReadElement(bookItem, book) {
   read.appendChild(input);
   return read;
 }
+
+addLocalStorage();
