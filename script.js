@@ -134,4 +134,3 @@ function createReadElement(bookItem, book) {
   read.appendChild(input);
   return read;
 }
-
