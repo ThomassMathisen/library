@@ -4,117 +4,82 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script src="script.js" defer></script>
     <title>Library</title>
 </head>
 <body>
+  <header class="header">
     <div class="container">
-        <div class="sidebar">
-            <div>
-                <h1>Library</h1>
-            </div>
+      <h1>Library</h1>
+      <nav>
+        <div class="lds-dual-ring active" id="loadingRing"></div>
+        <div class="logged-out" id="loggedOut">
+          <button class="btn" id="logInBtn">Log in</button>
         </div>
-    
-        <div class="header">
-            <div class="bottom-header">
-                <div class="profile-display">
-                </div>
-                <div class="buttons">
-                   <button class="add-book clickable">Add Book</button>
-                </div>
-                <div class="logged-out" id="loggedOut">
-                  <button class="btn" id="logInBtn">Log in</button>
-                </div>
-                <div class="logged-in" id="loggedIn">
-                  <button class="btn" id="accountBtn">Account</button>
-                  <button class="btn" id="logOutBtn">Log out</button>
-                </div>
-            </div>
-    
+        <div class="logged-in" id="loggedIn">
+          <button class="btn" id="accountBtn">Account</button>
+          <button class="btn" id="logOutBtn">Log out</button>
         </div>
-    
-        <div class="content">
-            <div class="content-display">
-                    <h3>Your Books</h3>
-                <div class="books">
-
-                </div>
-            </div>
-
-            <div class="modal" id="modal">
-                <div class="modal-content">
-                  <span class="close">&times;</span>
-                  <div class="modal-form">
-                    <h1 class="form-title">Add Book</h1>
-                    <form class="add-book-form">
-                      <div class="modal-input-field">
-                        <label for="book-title">Title:</label>
-                        <input
-                          type="text"
-                          name="book-title"
-                          id="book-title"
-                          class="modal-form-input"
-                        />
-                      </div>
-                      <div class="modal-input-field">
-                        <label for="book-author">Author:</label>
-                        <input
-                          type="text"
-                          name="book-author"
-                          id="book-author"
-                          class="modal-form-input"
-                        />
-                      </div>
-                      <div class="modal-input-field">
-                        <label for="book-pages">Pages:</label>
-                        <input
-                          type="number"
-                          min="0"
-                          name="book-pages"
-                          id="book-pages"
-                          class="modal-form-input"
-                        />
-                      </div>
-                      <div class="modal-input-field">
-                        <span class="modal-read">Read?</span>
-                        <label class="read-container">
-                          <input
-                            type="checkbox"
-                            name="book-read"
-                            id="book-read"
-                            class="checkmark"
-                          />
-                        </label>
-                      </div>
-                      <div class="submit-modal-form">
-                        <button type="submit" class="btn clickable form-add-button">Submit</button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-            </div>
-        </div> 
+      </nav>
     </div>
+  </header>
+  <main class="main container">
+    <button class="btn btn-add" id="addBookBtn">+ Add book</button>
+    <div class="books-grid" id="booksGrid"></div>
+  </main>
+  <div class="modal" id="addBookModal">
+    <form class="add-book-form" id="addBookForm">
+      <h3>Add new book</h3>
+      <input
+        class="input"
+        type="text"
+        id="title"
+        placeholder="Title"
+        required
+        maxlength="100"
+      />
+      <p class="error-msg" id="errorMsg"></p>
+      <input
+        class="input"
+        type="text"
+        id="author"
+        placeholder="Author"
+        required
+        maxlength="100"
+      />
+      <input
+        class="input"
+        type="number"
+        id="pages"
+        placeholder="Pages"
+        required
+        max="10000"
+      />
+      <div class="is-read">
+        <label for="is-read">Have you read it?</label>
+        <input class="checkbox" type="checkbox" id="isRead" />
+      </div>
+      <button class="btn btn-light-green" type="submit">Submit</button>
+    </form>
+  </div>
+  <div class="modal" id="accountModal"></div>
+  <div class="overlay" id="overlay"></div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.1.0/uuidv4.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-firestore.js"></script>
-    <script>
-      const firebaseConfig = {
-        apiKey: "AIzaSyBhWR3vQm5MwHuy_EwQkA-I6bmv9PQR2uk",
-        authDomain: "library-f1240.firebaseapp.com",
-        projectId: "library-f1240",
-        storageBucket: "library-f1240.appspot.com",
-        messagingSenderId: "255118784480",
-        appId: "1:255118784480:web:f236ea98425ce6ad3add85"
-      };
-  
-    const firebaseApp = initializeApp(firebaseConfig);
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.1.0/uuidv4.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: 'AIzaSyBhWR3vQm5MwHuy_EwQkA-I6bmv9PQR2uk',
+      authDomain: 'library-f1240.firebaseapp.com',
+      projectId: 'library-f1240',
+      storageBucket: 'library-f1240.appspot.com',
+      messagingSenderId: '255118784480',
+      appId: '1:255118784480:web:f236ea98425ce6ad3add85',
+    }
+    firebase.initializeApp(firebaseConfig)
   </script>
 </body>
 </html>
